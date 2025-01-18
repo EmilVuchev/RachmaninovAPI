@@ -5,7 +5,6 @@ namespace RachmaninovAPI.Data.Models
 {
     public class Paragraph : BaseModel
     {
-        [Required]
         [MaxLength(100)]
         public string Title { get; set; }
 
@@ -13,8 +12,17 @@ namespace RachmaninovAPI.Data.Models
         [MaxLength(1000)]
         public string Content { get; set; }
 
+        public bool IsPoem { get; set; }
+
+        public int Order { get; set; }
+
+        [ForeignKey(nameof(Memoir))]
+        public int? MemoirId { get; set; }
+
+        public virtual Memoir Memoir { get; set; }
+
         [ForeignKey(nameof(Article))]
-        public int ArticleId { get; set; }
+        public int? ArticleId { get; set; }
 
         public virtual Article Article { get; set; }
 
