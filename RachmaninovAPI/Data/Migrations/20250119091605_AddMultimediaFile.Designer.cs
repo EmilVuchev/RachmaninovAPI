@@ -12,8 +12,8 @@ using RachmaninovAPI.Data;
 namespace RachmaninovAPI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250118131854_AddCompositionLetterMemoirMusicalCategoryRecordingAndScore")]
-    partial class AddCompositionLetterMemoirMusicalCategoryRecordingAndScore
+    [Migration("20250119091605_AddMultimediaFile")]
+    partial class AddMultimediaFile
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -256,6 +256,78 @@ namespace RachmaninovAPI.Data.Migrations
                     b.ToTable("Articles");
                 });
 
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.Composition", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("MusicalCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OpusNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("WrittenOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MusicalCategoryId");
+
+                    b.ToTable("Compositions");
+                });
+
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.Letter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("To")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("WrittenIn")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("WrittenOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Letters");
+                });
+
             modelBuilder.Entity("RachmaninovAPI.Data.Models.Memoir", b =>
                 {
                     b.Property<int>("Id")
@@ -288,7 +360,62 @@ namespace RachmaninovAPI.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Memoir");
+                    b.ToTable("Memoirs");
+                });
+
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.MultimediaFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsImage")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MultimediaFiles");
+                });
+
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.MusicalCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MusicalCategories");
                 });
 
             modelBuilder.Entity("RachmaninovAPI.Data.Models.Paragraph", b =>
@@ -313,6 +440,9 @@ namespace RachmaninovAPI.Data.Migrations
                     b.Property<bool>("IsPoem")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("LetterId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("MemoirId")
                         .HasColumnType("int");
 
@@ -331,9 +461,86 @@ namespace RachmaninovAPI.Data.Migrations
 
                     b.HasIndex("ArticleId");
 
+                    b.HasIndex("LetterId");
+
                     b.HasIndex("MemoirId");
 
                     b.ToTable("Paragraphs");
+                });
+
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.Recording", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CompositionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("RecordedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompositionId");
+
+                    b.ToTable("Recordings");
+                });
+
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.Score", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CompositionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Edition")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompositionId");
+
+                    b.ToTable("Scores");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -387,11 +594,26 @@ namespace RachmaninovAPI.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.Composition", b =>
+                {
+                    b.HasOne("RachmaninovAPI.Data.Models.MusicalCategory", "MusicalCategory")
+                        .WithMany("Compositions")
+                        .HasForeignKey("MusicalCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MusicalCategory");
+                });
+
             modelBuilder.Entity("RachmaninovAPI.Data.Models.Paragraph", b =>
                 {
                     b.HasOne("RachmaninovAPI.Data.Models.Article", "Article")
                         .WithMany("Paragraphs")
                         .HasForeignKey("ArticleId");
+
+                    b.HasOne("RachmaninovAPI.Data.Models.Letter", null)
+                        .WithMany("Paragraphs")
+                        .HasForeignKey("LetterId");
 
                     b.HasOne("RachmaninovAPI.Data.Models.Memoir", "Memoir")
                         .WithMany("Paragraphs")
@@ -402,7 +624,41 @@ namespace RachmaninovAPI.Data.Migrations
                     b.Navigation("Memoir");
                 });
 
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.Recording", b =>
+                {
+                    b.HasOne("RachmaninovAPI.Data.Models.Composition", "Composition")
+                        .WithMany("Recordings")
+                        .HasForeignKey("CompositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Composition");
+                });
+
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.Score", b =>
+                {
+                    b.HasOne("RachmaninovAPI.Data.Models.Composition", "Composition")
+                        .WithMany("Scores")
+                        .HasForeignKey("CompositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Composition");
+                });
+
             modelBuilder.Entity("RachmaninovAPI.Data.Models.Article", b =>
+                {
+                    b.Navigation("Paragraphs");
+                });
+
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.Composition", b =>
+                {
+                    b.Navigation("Recordings");
+
+                    b.Navigation("Scores");
+                });
+
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.Letter", b =>
                 {
                     b.Navigation("Paragraphs");
                 });
@@ -410,6 +666,11 @@ namespace RachmaninovAPI.Data.Migrations
             modelBuilder.Entity("RachmaninovAPI.Data.Models.Memoir", b =>
                 {
                     b.Navigation("Paragraphs");
+                });
+
+            modelBuilder.Entity("RachmaninovAPI.Data.Models.MusicalCategory", b =>
+                {
+                    b.Navigation("Compositions");
                 });
 #pragma warning restore 612, 618
         }
