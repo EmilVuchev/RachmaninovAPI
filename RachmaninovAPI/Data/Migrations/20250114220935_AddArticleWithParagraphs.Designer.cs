@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RachmaninovAPI.Data;
 
@@ -11,9 +12,11 @@ using RachmaninovAPI.Data;
 namespace RachmaninovAPI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250114220935_AddArticleWithParagraphs")]
+    partial class AddArticleWithParagraphs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,168 +256,6 @@ namespace RachmaninovAPI.Data.Migrations
                     b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Composition", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("MusicalCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OpusNumber")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("WrittenOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MusicalCategoryId");
-
-                    b.ToTable("Compositions");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Letter", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("To")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("WrittenIn")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime>("WrittenOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Letters");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Memoir", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Author")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("WrittenIn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("WrittenOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Memoirs");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.MultimediaFile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsImage")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MultimediaFiles");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.MusicalCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MusicalCategories");
-                });
-
             modelBuilder.Entity("RachmaninovAPI.Data.Models.Paragraph", b =>
                 {
                     b.Property<int>("Id")
@@ -423,7 +264,7 @@ namespace RachmaninovAPI.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ArticleId")
+                    b.Property<int>("ArticleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
@@ -433,18 +274,6 @@ namespace RachmaninovAPI.Data.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsPoem")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("LetterId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MemoirId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -458,86 +287,7 @@ namespace RachmaninovAPI.Data.Migrations
 
                     b.HasIndex("ArticleId");
 
-                    b.HasIndex("LetterId");
-
-                    b.HasIndex("MemoirId");
-
                     b.ToTable("Paragraphs");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Recording", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CompositionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("RecordedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompositionId");
-
-                    b.ToTable("Recordings");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Score", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CompositionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Edition")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompositionId");
-
-                    b.ToTable("Scores");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -591,83 +341,20 @@ namespace RachmaninovAPI.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Composition", b =>
-                {
-                    b.HasOne("RachmaninovAPI.Data.Models.MusicalCategory", "MusicalCategory")
-                        .WithMany("Compositions")
-                        .HasForeignKey("MusicalCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MusicalCategory");
-                });
-
             modelBuilder.Entity("RachmaninovAPI.Data.Models.Paragraph", b =>
                 {
                     b.HasOne("RachmaninovAPI.Data.Models.Article", "Article")
                         .WithMany("Paragraphs")
-                        .HasForeignKey("ArticleId");
-
-                    b.HasOne("RachmaninovAPI.Data.Models.Letter", null)
-                        .WithMany("Paragraphs")
-                        .HasForeignKey("LetterId");
-
-                    b.HasOne("RachmaninovAPI.Data.Models.Memoir", "Memoir")
-                        .WithMany("Paragraphs")
-                        .HasForeignKey("MemoirId");
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Article");
-
-                    b.Navigation("Memoir");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Recording", b =>
-                {
-                    b.HasOne("RachmaninovAPI.Data.Models.Composition", "Composition")
-                        .WithMany("Recordings")
-                        .HasForeignKey("CompositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Composition");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Score", b =>
-                {
-                    b.HasOne("RachmaninovAPI.Data.Models.Composition", "Composition")
-                        .WithMany("Scores")
-                        .HasForeignKey("CompositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Composition");
                 });
 
             modelBuilder.Entity("RachmaninovAPI.Data.Models.Article", b =>
                 {
                     b.Navigation("Paragraphs");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Composition", b =>
-                {
-                    b.Navigation("Recordings");
-
-                    b.Navigation("Scores");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Letter", b =>
-                {
-                    b.Navigation("Paragraphs");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.Memoir", b =>
-                {
-                    b.Navigation("Paragraphs");
-                });
-
-            modelBuilder.Entity("RachmaninovAPI.Data.Models.MusicalCategory", b =>
-                {
-                    b.Navigation("Compositions");
                 });
 #pragma warning restore 612, 618
         }

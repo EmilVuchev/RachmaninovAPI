@@ -2,9 +2,12 @@ using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using RachmaninovAPI.Data;
+using RachmaninovAPI.Extensions;
+using RachmaninovAPI.Models.Base;
+using RachmaninovAPI.Services.Articles;
+using System.Reflection;
 
 namespace RachmaninovAPI
 {
@@ -28,6 +31,9 @@ namespace RachmaninovAPI
                 ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"]
             });
 
+            //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
@@ -47,10 +53,13 @@ namespace RachmaninovAPI
                 options.Preload = true;
             });
 
+            builder.Services.AddTransient<IArticleService, ArticleService>();
+
             var app = builder.Build();
 
             app.UseSwagger();
             app.UseSwaggerUI();
+            AutoMapperConfig.RegisterMappings(typeof(AutoMapperConfig).GetTypeInfo().Assembly);
 
             if (app.Environment.IsDevelopment())
             {
